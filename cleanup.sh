@@ -8,3 +8,4 @@ fi
 if [ "" !=  "$image" ]; then
     docker rmi -f $image
 fi
+docker volume rm chat-data
