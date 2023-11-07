@@ -3,7 +3,9 @@ from flask import Flask, render_template, request, redirect, session
 import csv
 import os
 import base64
-from datetime import datetime
+import datetime
+
+
 
 #----------------------------------------------------------------------------
 # Init
@@ -96,7 +98,7 @@ def logout():
 
 @app.route('/lobby', methods=['GET', 'POST'])
 def lobby():
-     if 'username' in session:
+    if 'username' in session:
         if request.method == 'POST':
             room_name = request.form['new_room']
             if valid_room_name(room_name):  
@@ -108,7 +110,7 @@ def lobby():
         rooms = os.listdir(os.getenv('ROOMS_FILES_PATH'))
         new_rooms = [x[:-4] for x in rooms]
         return render_template('lobby.html', all_rooms=new_rooms)
-     else:
+    else:
         return redirect('/login')
 
 @app.route('/chat/<room>', methods=['GET', 'POST'])
@@ -124,9 +126,11 @@ def update_chat(room):
     path=os.getenv('ROOMS_FILES_PATH')+room+".txt"
     if request.method == 'POST':
         message = request.form['msg']
-   
         username = session['username']
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        ist_offset = datetime.timedelta(hours=3)
+        utc_time = datetime.datetime.utcnow()
+        local_time = utc_time + ist_offset
+        timestamp = local_time.strftime("%Y-%m-%d %H:%M:%S")
         # Append the message to the room's unique .txt file
         with open(path, 'a', newline='') as file:
             file.write(f'[{timestamp}] {username}: {message}\n')

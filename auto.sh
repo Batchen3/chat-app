@@ -57,11 +57,16 @@ while [ $# -gt 0 ]; do
             shift
             ;;
         -de|--deploy)
-            if [ -n "$2" ] && [ -n "$3" ]; then
+            if [ -n "$2" ]; then
                 echo "Building, tagging, and pushing chat-app image with tag $2 to GCR."
-                echo "Optional: Tag and push commit hash $3"
-                ./${script_folder}/deploy.sh $2 $3
-                shift 3
+                if [ -n "$3" ]; then 
+                    echo "Optional: Tag and push commit hash $3"
+                    ./${script_folder}/deploy.sh $2 $3
+                    shift 3
+                else
+                    ./${script_folder}/deploy.sh $2
+                    shift 2
+                fi
             else
                 echo "Error: Missing arguments for -de option."
                 display_usage

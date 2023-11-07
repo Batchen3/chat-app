@@ -1,0 +1,43 @@
+# version: '3'
+
+# services:
+#   chat_app:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     ports:
+#       - "5000:3000"
+#     volumes:
+#       - .:/code
+
+
+
+
+
+# version: "3.9"
+
+# services:
+#   app:
+#     build: .
+#     environment:
+#       - FLASK_ENV=development
+#       - ROOMS_FILES_PATH=rooms/
+#       - CSV_PATH=data/users.csv
+#     ports:
+#       - 5000:5000
+#     healthcheck:
+#       test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+#       interval: 10s
+#       timeout: 3s
+#     volumes:
+#       - ./:/code
+
+
+version: "3"
+
+services:
+  app:
+    build: .
+    ports:
+      - "3000:5000"
+
